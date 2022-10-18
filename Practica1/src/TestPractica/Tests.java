@@ -1,8 +1,11 @@
-package TestPractica;
+ package TestPractica;
+ import Practica.*;
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 import Practica.Practica;
+import Practica.*;
 import us.lsi.geometria.Punto2D;
 import us.lsi.streams.Stream2;
 
@@ -12,17 +15,38 @@ public class Tests {
 
 }
 	public static void testEjemplo1() {
-		String file = "ficheros/Ejemplo1DatosEntrada.txt";
-		List<Punto2D> ls = Stream2.file(file).map(s-> parsePunto(s)).collect(Collectors.toList());
-		System.out.println("1)Solución iterativa:\n" + solucionRecursivaFinal(ls));
-
+			String file = "ficheros/PI1Ej2DatosEntrada.txt";
+			List<Tupla> ls = Stream2.file(file).map(s-> parseTupla(s)).collect(Collectors.toList());
+			for (int i=0; i<ls.size();i++) {
+				Tupla element = ls.get(i);
+				Integer a = element.a;
+				Integer b = element.b;
+				String s = element.s;
+				
+				Integer resIt = Practica.SolucionRecursivaNoFinal(a, b, s);
+				System.out.println("TEST"+i+": ");
+				System.out.println("1)Solución Recursiva no Final :\n" + resIt);
+			}
+			
+			System.out.println("1)Solución funcional:\n" + Ejemplo1.solucionRecursivaFinal(ls));
+			System.out.println("2)Solución funcional:\n" + Ejemplo1.ejemplo1(ls));
+			System.out.println("3)Solución funcional:\n" + Ejemplo1.solucionIterativa(ls));
+		}
+	
+	public static Tupla parseTupla(String cadena) {
+		String[] trozos = cadena.split(",");
+		Integer a = Integer.parseInt(trozos[0]);
+		Integer b = Integer.parseInt(trozos[1]);
+		String s = trozos[2];
+		
+		return new Tupla(s,a,b);
 	}
-	private static Punto2D parsePunto(String s) {
-		String[] v = s.split(",");
-		Double x = Double.valueOf(v[0]);
-		Double y = Double.valueOf(v[1]);
-		Punto2D p = Punto2D.of(x,y);
-		return p;
+	
+	public static record Tupla(String s,Integer a, Integer b) {
+		public static Tupla of(String s, Integer a, Integer b) {
+			return new Tupla(s,a,b);
+		}
+		
+	}
 	}
 
-}
