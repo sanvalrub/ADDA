@@ -9,8 +9,8 @@ import us.lsi.streams.Stream2;
 public class Test2 {
 
 	public static void main(String[] args) {
-		String file = "ficheros/PI1Ej2DatosEntrada.txt";
-		List<Tupla> ls = Stream2.file(file).map(s-> parseTupla(s)).collect(Collectors.toList());
+		String fichero = "ficheros/PI1Ej2DatosEntrada.txt";
+		List<Tupla> ls = Stream2.file(fichero).map(s-> parseTupla(s)).collect(Collectors.toList());
 		for (int i=0; i<ls.size();i++) {
 			Tupla element = ls.get(i);
 			Integer a = element.a;
@@ -20,10 +20,10 @@ public class Test2 {
 			Integer resNoFinal= Ejercicio2.SolucionRecursivaNoFinal(a, b, s);
 			Integer resFinal= Ejercicio2.SolucionRecursivaFinal(a, b, s);
 			Integer resIt= Ejercicio2.Iterativa(a, b, s);
-			System.out.println("TEST"+i+": ");
-			System.out.println("1)Solución Recursiva no Final :\n" + resNoFinal);
-			System.out.println("1)Solución Recursiva Final :\n" + resFinal);
-			System.out.println("1)Solución Iterativa :\n" + resIt);
+			System.out.println("TEST"+" "+i+": ");
+			System.out.println("1)SoluciÃ³n Recursiva no Final:\n" + resNoFinal);
+			System.out.println("1)SoluciÃ³n Recursiva Final:\n" + resFinal);
+			System.out.println("1)SoluciÃ³n Iterativa:\n" + resIt+"\n\n");
 			
 		}
 		
@@ -35,12 +35,12 @@ public class Test2 {
 		Integer b = Integer.parseInt(trozos[1]);
 		String s = trozos[2];
 	
-		return new Tupla(s,a,b);
+		return new Tupla(a,b,s);
 	}
 
-	public static record Tupla(String s,Integer a, Integer b) {
-		public static Tupla of(String s, Integer a, Integer b) {
-			return new Tupla(s,a,b);
+	public static record Tupla(Integer a, Integer b, String s) {
+		public static Tupla of(Integer a, Integer b, String s) {
+			return new Tupla(a,b,s);
 		}
 	
 	}

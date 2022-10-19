@@ -10,7 +10,7 @@ import us.lsi.streams.Stream2;
 public class Test1 {
 
 	public static void main(String[] args) {
-		String file = "ficheros/PI1Ej1DatosEntrada.txt";
+		String file = "ficheros/PI1Ej1DatosEntrada";
 		List<Tupla> ls = Stream2.file(file).map(s-> parseTupla(s)).collect(Collectors.toList());
 		
 		for (int i=0; i<ls.size();i++) {
@@ -24,7 +24,7 @@ public class Test1 {
 			Map<Integer, List<String>> Resultado = Ejercicio1.ejercicioA(a, b,
 					c, d, e);
 			System.out.println("TEST"+i+": ");
-			System.out.println("1)Solución Recursiva no Final :\n" + Resultado);
+			System.out.println("1)Soluciï¿½n Recursiva no Final :\n" + Resultado);
 		}
 	}
 	

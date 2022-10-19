@@ -5,7 +5,6 @@ public class Ejercicio2 {
 	// RECURSIVA NO FINAL
 	public static Integer SolucionRecursivaNoFinal(Integer a, Integer b, String s) {
 		Integer res= null;
-		if(a>0 & b>0) {
 			if(s.length()==0) {
 				res = a*a+b*b;
 			}else if(a<2 || b < 2){
@@ -14,8 +13,7 @@ public class Ejercicio2 {
 				res = a + b + SolucionRecursivaNoFinal(a-1, b/2, s.substring(a%s.length(),b%s.length()));	
 			}else {
 				res = a*b + SolucionRecursivaNoFinal(a/2, b-1, s.substring(b%s.length(),a%s.length()));
-			}
-		}	
+			}	
 		return res;
 	}
 	
@@ -27,45 +25,48 @@ public class Ejercicio2 {
 	}
 	
 	public static Integer RecursivaFinal(Integer a, Integer b, String s, Integer ac) {
-		if(a>0 & b>0) {
 			if(s.length()==0) {
-				ac = a*a+b*b;
+				ac = ac + a*a+b*b;
 			}else if(a<2 || b < 2){
-				ac =s.length() + a + b;
+				ac =ac + s.length() + a + b;
 			}else if(a%s.length()<b%s.length()){
-				ac = RecursivaFinal(a-1, b/2, s.substring(a%s.length(),b%s.length()), a + b);
+				ac = RecursivaFinal(a-1, b/2, s.substring(a%s.length(),b%s.length()), a + b + ac);
 			}else {
-				ac = RecursivaFinal(a/2, b-1, s.substring(b%s.length(),a%s.length()), a*b);
+				ac = RecursivaFinal(a/2, b-1, s.substring(b%s.length(),a%s.length()), a*b + ac);
 			}
-		}
 		return ac;
 	}
 	
 	
 	// ITERATIVA
 	public static Integer Iterativa(Integer a, Integer b, String s) {
-		Integer ac;
-		while (s.length()!=0 || a<2 || b < 2 ) {
+		
+		Integer ac = 0; // inicializamos el acumulador
+		
+		while ((s.length()!=0) && (a>=2 || b >= 2 )) {
 			if(a%s.length()<b%s.length()) {
-				ac = a + b;
-				a -=1;
-				b /=2;
-				s = s.substring(a%s.length(), b&s.length());
+				ac =ac + a + b;
+				s = s.substring(a%s.length(),b%s.length());
+				a = a-1;
+				b = b/2;
 			}else {
-				ac = a * b;
-				a /=2;
-				a -=1;
-				s = s.substring(b%s.length(), b%s.length());
+				ac = a * b + ac;
+				s = s.substring(b%s.length(),a%s.length());
+				a=a/2;
+				b = b-1;
 			}
 		}
+		
 		if (s.length()==0) {
-			ac = a*a+b*b;
+			ac = ac + a*a+b*b;
 		}else {
-			ac = s.length()+a +b;
+			ac = ac + s.length()+a +b;
 		}
 		
 		return ac;
 	}
+	
+	// FUNCIONAL 
 	
 		
 
