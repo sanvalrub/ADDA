@@ -10,7 +10,7 @@ import us.lsi.streams.Stream2;
 public class Test1 {
 
 	public static void main(String[] args) {
-		String file = "ficheros/PI1Ej1DatosEntrada";
+		String file = "ficheros/PI1Ej1DatosEntrada.txt";
 		List<Tupla> ls = Stream2.file(file).map(s-> parseTupla(s)).collect(Collectors.toList());
 		
 		for (int i=0; i<ls.size();i++) {
@@ -21,17 +21,15 @@ public class Test1 {
 			String d = element.d;
 			Integer e = element.e;
 			
-			Map<Integer, List<String>> Resultado = Ejercicio1.ejercicioA(a, b,
+			Map<Integer, List<String>> Resultado = Ejercicio1.solucionIterativa(a, b,
 					c, d, e);
+			
+			Map<Integer, List<String>> Resultado1 = Ejercicio1.solucionARecursivaFinal(a, b, c, d, e);
 			System.out.println("TEST"+i+": ");
-			System.out.println("1)Soluci�n Recursiva no Final :\n" + Resultado);
+			System.out.println("1)Solucion Iterativa" + Resultado);
+			System.out.println("1)Solucion Recursiva" + Resultado1+ "\n");
 		}
 	}
-	
-	
-	
-	
-	
 	
 	public static Tupla parseTupla(String cadena) {
 		String[] trozos = cadena.split(",");

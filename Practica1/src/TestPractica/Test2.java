@@ -20,10 +20,13 @@ public class Test2 {
 			Integer resNoFinal= Ejercicio2.SolucionRecursivaNoFinal(a, b, s);
 			Integer resFinal= Ejercicio2.SolucionRecursivaFinal(a, b, s);
 			Integer resIt= Ejercicio2.Iterativa(a, b, s);
+			Integer resFunc = Ejercicio2.resFunc(a, b, s);
+			
 			System.out.println("TEST"+" "+i+": ");
-			System.out.println("1)Solución Recursiva no Final:\n" + resNoFinal);
-			System.out.println("1)Solución Recursiva Final:\n" + resFinal);
-			System.out.println("1)Solución Iterativa:\n" + resIt+"\n\n");
+			System.out.println("1)Solucion Recursiva no Final:\n" + resNoFinal);
+			System.out.println("1)Solucion Recursiva Final:\n" + resFinal);
+			System.out.println("1)Solucion Iterativa:\n" + resIt);
+			System.out.println("1)Solucion Funcional:\n" + resFunc+"\n");
 			
 		}
 		
