@@ -13,9 +13,11 @@ import us.lsi.geometria.Punto2D.Cuadrante;
 
 public class Ejercicio3 {
 	
+	
+	// EJERCICIO 3 SOLUCIÓN ITERATIVA
 	/**
-	 * @param String fichero1, String fichero2
-	 * @return           
+	 * @param String fichero1, String fichero2.
+	 * @return Lista de tipo Punto2D fusionada de los dos ficheros pasados como parámetros.     
 	 */
 	public static List<Punto2D> leerPuntoIterativa(String fichero1, String fichero2){
 		List<Punto2D> ac = new ArrayList<Punto2D>();
@@ -94,65 +96,86 @@ public class Ejercicio3 {
 	
 }
 	
+	
+	// EJERCICIO 3 SOLUCIÓN RECURSIVA
+	
+	/**
+	 * @param String fichero1, String fichero2.
+	 * @return Llamada a la función auxiliar recursiva que hace todos los cálculos. Obtenemos una ista de tipo
+	 *         Punto2D fusionada de los dos ficheros pasados como parámetros.     
+	 */
 	public static List<Punto2D> leerPuntoRecursiva(String fichero1, String fichero2){
 		try {
 			File f1 = new File(fichero1); // creamos objetos de tipo File para cada fichero
 			File f2 = new File(fichero2);
+			Scanner s1 = new Scanner(f1); // creamos objetos de tipo Scanner para cada objeto File
+			Scanner s2 = new Scanner(f2);
+			
+			Punto2D p1 = null;
+			Punto2D p2 = null;
+			
+			if(s1.hasNext() && s2.hasNext()) { 
+				p1 = parsePunto(s1.nextLine()); // se asigna p1 a la primera posición del fichero 1 mientras que s1 y s2 no estén vacíos
+				p2 = parsePunto(s2.nextLine());
+				
 			}
+			
+			return RecursivaAux(p1, p2, s1, s2, new ArrayList<Punto2D>());
 		
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally {
-
+			return null;
 		}
-		
-		return RecursivaAux(p1, p2, s1, s2, new ArrayList<Punto2D>());
-		
-		
-		
-		
-	}
-	
 
+
+	}
+		
+		
+		
+	
+	/**
+	 * @param Punto2D p1, Punto2D p2, Scanner s1, Scanner s2, List<Punto2D> ac.
+	 * @return Lista de tipo Punto2D fusionada de los dos ficheros pasados como parámetros.     
+	 */
 	private static List<Punto2D> RecursivaAux(Punto2D p1, Punto2D p2, Scanner s1, Scanner s2, List<Punto2D> ac) {
 			
 			Predicate<Punto2D> p = x->x.getCuadrante()==Cuadrante.PRIMER_CUADRANTE || x.getCuadrante()==Cuadrante.TERCER_CUADRANTE;
 			
 			
-			if(s1.hasNext() || s2.hasNext()) { // mientras que uno de los dos ficheros no esté vacío
+			if(s1.hasNext() || s2.hasNext()) { 
 				
 				
-				if (s1.hasNext() && s2.hasNext()) { // si ninguno de los ficheros está vacío:
+				if (s1.hasNext() && s2.hasNext()) { 
 		
 					// filtramos por cuadrante:
-					if(p.test(p1) && !p.test(p2) ) { // si p1 está en los cuadrantes y p2 no:
-						p2 = parsePunto(s2.nextLine()); // incrementamos iterador del f2 pero no del f1 pues se va a tener que comparar 
-						                                // el siguiente
-					}else if (!p.test(p1) && p.test(p2)) {  // si p2 está en los cuadrantes:
+					if(p.test(p1) && !p.test(p2) ) { 
+						p2 = parsePunto(s2.nextLine());  
+						                                
+					}else if (!p.test(p1) && p.test(p2)) {  
 						p1 = parsePunto(s1.nextLine());
 
-					}else if(p.test(p1) && p.test(p2)) { // si los dos están en los cuadrantes:
-						if (p1.compareTo(p2)<0){ // si p1 es menor que p2:
-							ac.add(p1); // se añade p1
-							p1 = parsePunto(s1.nextLine()); // y se incrementa p1 (p2 se seguirá manteniendo para compararse con el siguiente)
+					}else if(p.test(p1) && p.test(p2)) { 
+						if (p1.compareTo(p2)<0){ 
+							ac.add(p1); 
+							p1 = parsePunto(s1.nextLine()); 
 						}else {
 							ac.add(p2);
 							p2 = parsePunto(s2.nextLine());
 						}
 					}else {
-						p1 = parsePunto(s1.nextLine()); // si no están en los cuadrantes, se incrementan 
-						p2 = parsePunto(s2.nextLine()); // los iteradores de ambos ficheros
+						p1 = parsePunto(s1.nextLine()); 
+						p2 = parsePunto(s2.nextLine()); 
 					}
 					
 					RecursivaAux(p1,p2,s1,s2,ac);
 					
-				}else if(!s1.hasNext()) { // si f1 está vacío:
-					if(p.test(p2)) // comprobamos que el punto de f2 esté en el 2º cuadrante
+				}else if(!s1.hasNext()) { 
+					if(p.test(p2)) 
 						ac.add(p2);
 					p2 = parsePunto(s2.nextLine());
 					if (!s2.hasNext()) {
-						if(p.test(p2)) // comprobamos que el punto de f2 esté en el 2º cuadrante
+						if(p.test(p2)) 
 							ac.add(p2);
 					
 					}
@@ -163,15 +186,25 @@ public class Ejercicio3 {
 					if(p.test(p1))
 						ac.add(p1);
 					p1 = parsePunto(s1.nextLine());
+					if (!s1.hasNext()) { // aquí preguntamos si ese punto es el último del fichero
+						if(p.test(p1))   // si es, filtramos para comprobar si está en los cuadrantes
+							ac.add(p1);
 					RecursivaAux(p1,p2,s1,s2,ac);
-						
+					}
 				}
 			}
 			return ac;
 			
 }
 	
-	public static void leerPuntoFuncional(String fichero1, String fichero2){
+	
+	// EJERCICIO 3 SOLUCIÓN FUNCIONAL
+	
+	/**
+	 * @param String fichero1, String fichero2
+	 * @return Lista de tipo Punto2D fusionada de los dos ficheros pasados como parámetros.     
+	 */
+	public static List<Punto2D> leerPuntoFuncional(String fichero1, String fichero2){
 		List<Punto2D> ac = new ArrayList<Punto2D>();
 		try {
 
@@ -192,13 +225,12 @@ public class Ejercicio3 {
 					.dropWhile(x->x.s1.hasNext() || x.s2.hasNext())
 					.findFirst().get();
 			
-			System.out.println(t.ac);
+			return t.ac;
 			
-			s1.close();
-			s2.close();
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+			return null;
 		}finally {
 			
 		}
@@ -224,34 +256,32 @@ public class Ejercicio3 {
 		Predicate<Punto2D> p = x->x.getCuadrante()==Cuadrante.PRIMER_CUADRANTE || x.getCuadrante()==Cuadrante.TERCER_CUADRANTE;
 		
 		
-		if (s1.hasNext() && s2.hasNext()) { // si ninguno de los ficheros está vacío:
+		if (s1.hasNext() && s2.hasNext()) { 
 			
-			// filtramos por cuadrante:
-			if(p.test(p1) && !p.test(p2) ) { // si p1 está en los cuadrantes y p2 no:
-				p2 = parsePunto(s2.nextLine()); // incrementamos iterador del f2 pero no del f1 pues se va a tener que comparar 
-				                                // el siguiente
-			}else if (!p.test(p1) && p.test(p2)) {  // si p2 está en los cuadrantes:
+			if(p.test(p1) && !p.test(p2) ) { 
+				p2 = parsePunto(s2.nextLine()); 
+			}else if (!p.test(p1) && p.test(p2)) {  
 				p1 = parsePunto(s1.nextLine());
 
-			}else if(p.test(p1) && p.test(p2)) { // si los dos están en los cuadrantes:
-				if (p1.compareTo(p2)<0){ // si p1 es menor que p2:
-					ac.add(p1); // se añade p1
-					p1 = parsePunto(s1.nextLine()); // y se incrementa p1 (p2 se seguirá manteniendo para compararse con el siguiente)
+			}else if(p.test(p1) && p.test(p2)) { 
+				if (p1.compareTo(p2)<0){ 
+					ac.add(p1); 
+					p1 = parsePunto(s1.nextLine()); 
 				}else {
 					ac.add(p2);
 					p2 = parsePunto(s2.nextLine());
 				}
 			}else {
-				p1 = parsePunto(s1.nextLine()); // si no están en los cuadrantes, se incrementan 
-				p2 = parsePunto(s2.nextLine()); // los iteradores de ambos ficheros
+				p1 = parsePunto(s1.nextLine()); 
+				p2 = parsePunto(s2.nextLine()); 
 			}
 			
-		}else if(!s1.hasNext()) { // si f1 está vacío:
-			if(p.test(p2)) // comprobamos que el punto de f2 esté en el 2º cuadrante
+		}else if(!s1.hasNext()) { 
+			if(p.test(p2)) 
 				ac.add(p2);
 			p2 = parsePunto(s2.nextLine());
 			if (!s2.hasNext()) {
-				if(p.test(p2)) // comprobamos que el punto de f2 esté en el 2º cuadrante
+				if(p.test(p2)) 
 					ac.add(p2);
 			
 			}
@@ -260,6 +290,10 @@ public class Ejercicio3 {
 			if(p.test(p1))
 				ac.add(p1);
 			p1 = parsePunto(s1.nextLine());
+			if (!s1.hasNext()) { 
+				if(p.test(p1))   
+					ac.add(p1);
+			}
 				
 		}
 		

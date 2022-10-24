@@ -7,6 +7,11 @@ import java.util.Map;
 public class Ejercicio4 {
 	
 	// Recursiva sin memoria
+	    /**
+	     * @param Integer a, Integer b, Integer c.
+	     * @return String que según unas condiciones u otras realiza una serie de 
+	     * tratamientos distintos sobre los parámetros de entrada.   
+	     */
 		public static String Recursiva(Integer a, Integer b, Integer c) {
 			String ac = "";
 			if (a<2 & b<=2 || c <2) {
@@ -23,15 +28,26 @@ public class Ejercicio4 {
 		}
 		
 	// Recursiva con memoria
+		/**
+	     * @param Integer a, Integer b, Integer c.
+	     * @return Llamada a la función auxiliar recursiva que hace las operaciones. Obtenemos 
+	     * el String como solución.  
+	     */
 		public static String RecursivaConMemoria(Integer a, Integer b, Integer c) {
 			return RecursivaConMemoriaAux(a, b, c, new HashMap<tupla, String>());
 		}
 		
+		/**
+	     * @param Integer a, Integer b, Integer c, Map<tupla, String> m (nuestra memoria, donde se irán
+	     * guardando los valores).
+	     * @return Llamada a la función auxiliar recursiva que hace las operaciones. Obtenemos 
+	     * el String como solución.  
+	     */
 		public static String RecursivaConMemoriaAux(Integer a, Integer b, Integer c, Map<tupla, String> m) {
 			String ac = "";
 			if (m.containsKey(new tupla(a, b, c))) {
 				tupla t = new tupla(a, b, c);
-				m.put(t,ac);
+				ac = m.get(t);
 			}else if(a<2 & b<=2 || c <2) {
 				ac = "("+ a.toString() + "+" + b.toString() + "+" +c.toString() + ")";
 				tupla t = new tupla(a, b, c);
@@ -53,7 +69,11 @@ public class Ejercicio4 {
 			return ac;
 		}
 		
-		
+		/**
+	     * @param Integer a, Integer b, Integer c
+	     * @return String que según unas condiciones u otras realiza una serie de 
+	     * tratamientos distintos sobre los parámetros de entrada.
+	     */
 		public static String SolucionIterativa(Integer a, Integer b, Integer c) {
 			Map<tupla, String> aux = new HashMap<tupla, String>();
 			String ac;
